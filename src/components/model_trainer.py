@@ -18,6 +18,7 @@ from src.exception import CustomException
 from src.logger import logging
 
 from src.utils import save_object
+from src.utils import evaluate_models
 
 @dataclass
 class ModelTrainerConfig:
@@ -27,7 +28,7 @@ class ModelTrainer:
     def __init__(self):
         self.model_trainer_config=ModelTrainerConfig()
     
-    def initiate_model_trainer(self,train_array,test_array,preprocessor_path):
+    def initiate_model_trainer(self,train_array,test_array):
         try:
             logging.info("Split training and test input data")
             X_train,y_train,X_test,y_test=(
@@ -87,7 +88,7 @@ class ModelTrainer:
             }
 
 
-            model_report:dict=evaluate_model(X_train=X_train,y_train=y_train,X_test=X_test,y_test=y_test,model=models,param=params)
+            model_report:dict=evaluate_models(X_train=X_train,y_train=y_train,X_test=X_test,y_test=y_test,models=models)
 
             ## To get best model score from dict
             best_model_score = max(sorted(model_report.values()))
